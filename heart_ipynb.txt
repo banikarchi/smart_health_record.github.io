@@ -1,0 +1,58 @@
+import pandas as pd
+import seaborn as sns
+import numpy as np
+import matplotlib.pyplot as plt
+
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+
+df = pd.read_csv("heart.csv")
+
+df.head()
+
+df.info()
+
+df.describe().T
+
+f, ax = plt.subplots(figsize=(8, 6))
+ax = sns.countplot(x="target", data=df)
+plt.show()
+
+df.plot(kind='density', subplots=True, layout=(7,2), sharex=False , figsize =(18,18))
+plt.show()
+
+df.hist(figsize = (10,10), color = "#5F9EA0")
+plt.show() 
+
+df.plot(kind='box', subplots=True, layout=(7,2), sharex=False,sharey=False ,figsize =(18,18))
+plt.show()
+
+correlation = df.corr()
+
+correlation['target'].sort_values(ascending=False)
+
+f, ax = plt.subplots(figsize=(10,6))
+x = df['thalach']
+x = pd.Series(x, name="thalach variable")
+ax = sns.kdeplot(x, shade=True, color='r')
+plt.show()
+
+f, ax = plt.subplots(figsize=(8, 6))
+sns.boxplot(x="target", y="thalach", data=df)
+plt.show()
+
+plt.figure(figsize=(16,12))
+plt.title('Correlation Heatmap of Heart Disease Dataset')
+a = sns.heatmap(correlation, square=True, annot=True, fmt='.2f', linecolor='white')
+a.set_xticklabels(a.get_xticklabels(), rotation=90)
+a.set_yticklabels(a.get_yticklabels(), rotation=30)           
+plt.show()
+
+num_var = ['age', 'trestbps', 'chol', 'thalach', 'oldpeak', 'target' ]
+sns.pairplot(df[num_var], kind='scatter', diag_kind='hist')
+plt.show()
+
+f, ax = plt.subplots(figsize=(10,6))
+x = df['age']
+ax = sns.distplot(x, bins=10)
+plt.show()
